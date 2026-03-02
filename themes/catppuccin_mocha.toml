@@ -31,6 +31,10 @@
 "variable.builtin" = { fg = "sapphire", modifiers = ["italic"] }
 # "variable.other.member" = { fg = "lavender" }
 
+"identifier" = "red"
+"identifier.field_access" = { fg = "red", modifiers = ["italic"] }
+"identifier.field_access.constant" = "peach"
+
 "label" = "sapphire" # used for lifetimes
 
 "punctuation" = "overlay2"
@@ -39,6 +43,7 @@
 "keyword" = "mauve"
 "keyword.control" = { fg = "mauve", modifiers = ["bold"] }
 "keyword.module" = { fg = "lavender" }
+"keyword.expression.module" = { fg = "lavender", modifiers = ["italic"] }
 "keyword.expression" = { fg = "mauve", modifiers = ["italic"] }
 "keyword.expression.control" = { fg = "mauve", modifiers = ["bold", "italic"] }
 "keyword.literal" = { fg = "flamingo" }
@@ -51,6 +56,10 @@
 "tag" = "blue"
 
 "namespace" = { fg = "yellow", modifiers = ["italic"] }
+
+"punctuation.generator_star" = { fg = "mauve", modifiers = ["bold"] }
+"punctuation.generator_star.expression" = { fg = "mauve", modifiers = ["italic", "bold"] }
+"punctuation.meta_property_dot" = { fg = "mauve", modifiers = ["italic"] }
 
 "special" = "blue" # fuzzy highlight
 

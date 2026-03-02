@@ -1,6 +1,8 @@
 ; Tokens
 ;-------
 
+"=>" @punctuation.arrow.ecma
+
 [
   ";"
   (optional_chain) ; ?.
@@ -33,7 +35,6 @@
   "!"
   "!="
   "!=="
-  "=>"
   ">"
   ">="
   ">>"
@@ -114,20 +115,22 @@
   "do"
 ] @keyword.control.ecma
 
-[
-  "if"
-  "else"
-  "switch"
-  "case"
-  "while"
-] @keyword.control.conditional.ecma
+"if" @keyword.control.if.ecma
+"else" @keyword.control.else.ecma
+"switch" @keyword.control.switch.ecma
+"case" @keyword.control.case.ecma
+"while" @keyword.control.while.ecma
 
-  "for" @keyword.control.repeat.ecma
+(export_statement ("default") @keyword.module.default.ecma)
+
+"for" @keyword.control.for.ecma
 
 "import" @keyword.module.import.ecma
 "export" @keyword.module.export.ecma
 "from" @keyword.module.from.ecma
 "as" @keyword.module.as.ecma
+
+(import "import" @keyword.expression.module.import.ecma)
 
 "return" @keyword.control.return.ecma
 "break" @keyword.control.break.ecma
@@ -139,15 +142,27 @@
 ; Variables
 ;----------
 
-(identifier) @variable.ecma
+(identifier) @identifier.ecma
 
 ; Properties
 ;-----------
 
-(property_identifier) @variable.other.member.ecma
-(private_property_identifier) @variable.other.member.private.ecma
+(property_identifier) @identifier.ecma
+
+(member_expression
+  (property_identifier) @identifier.field_access.ecma
+)
+
+(private_property_identifier) @identifier.field_access.private.ecma
+
+((property_identifier) @identifier.field_access.constant.ecma
+  (#match? @identifier.field_access.constant.ecma "^[A-Z_][A-Z\\d_]+$")
+)
+
 (shorthand_property_identifier) @variable.other.member.ecma
 (shorthand_property_identifier_pattern) @variable.other.member.ecma
+
+(pair (property_identifier) @identifier.field.ecma)
 
 ; Function and method definitions
 ;--------------------------------
@@ -155,47 +170,61 @@
 (function
   "async"? @keyword.expression.control.async.ecma
   "function" @keyword.expression.control.function.ecma
-  name: (identifier)? @function.ecma)
+  ; name: (identifier)? @function.ecma
+)
 (generator_function
   "async"? @keyword.expression.control.async.ecma
   "function" @keyword.expression.control.function.ecma
-  name: (identifier)? @function.ecma)
+  "*" @punctuation.generator_star.expression.ecma
+  ; name: (identifier)? @function.ecma
+)
 (function_declaration
   "async"? @keyword.expression.control.async.ecma
   "function" @keyword.control.function.ecma
-  name: (identifier) @function.ecma)
+  ; name: (identifier) @function.ecma
+)
 (generator_function_declaration
-  "async"? @keyword.expression.control.async.ecma
-  "function" @keyword.expression.control.function.ecma
-  name: (identifier) @function.ecma)
-(method_definition
-  name: (property_identifier) @function.method.ecma)
-(method_definition
-  name: (private_property_identifier) @function.method.private.ecma)
+  "async"? @keyword.control.async.ecma
+  "function" @keyword.control.function.ecma
+  "*" @punctuation.generator_star.ecma
+  ; name: (identifier) @function.ecma
+)
+; (method_definition
+;   name: (property_identifier) @function.method.ecma
+; )
+; (method_definition
+;   name: (private_property_identifier) @function.method.private.ecma
+; )
 
-(pair
-  key: (property_identifier) @function.method.ecma
-  value: [(function) (arrow_function)])
-(pair
-  key: (private_property_identifier) @function.method.private.ecma
-  value: [(function) (arrow_function)])
+; (pair
+;   key: (property_identifier) @function.method.ecma
+;   value: [(function) (arrow_function)]
+; )
+; (pair
+;   key: (private_property_identifier) @function.method.private.ecma
+;   value: [(function) (arrow_function)]
+; )
 
-(assignment_expression
-  left: (member_expression
-    property: (property_identifier) @function.method.ecma)
-  right: [(function) (arrow_function)])
-(assignment_expression
-  left: (member_expression
-    property: (private_property_identifier) @function.method.private.ecma)
-  right: [(function) (arrow_function)])
+; (assignment_expression
+;   left: (member_expression
+;     property: (property_identifier) @function.method.ecma)
+;   right: [(function) (arrow_function)]
+; )
+; (assignment_expression
+;   left: (member_expression
+;     property: (private_property_identifier) @function.method.private.ecma)
+;   right: [(function) (arrow_function)]
+; )
 
-(variable_declarator
-  name: (identifier) @function.ecma
-  value: [(function) (arrow_function) (generator_function)])
+; (variable_declarator
+;   name: (identifier) @function.ecma
+;   value: [(function) (arrow_function) (generator_function)]
+; )
 
-(assignment_expression
-  left: (identifier) @function.ecma
-  right: [(function) (arrow_function)])
+; (assignment_expression
+;   left: (identifier) @function.ecma
+;   right: [(function) (arrow_function)]
+; )
 
 ; Function and method parameters
 ;-------------------------------
@@ -208,15 +237,18 @@
 ; Function and method calls
 ;--------------------------
 
-(call_expression
-  function: (identifier) @function.ecma)
+; (call_expression
+;   function: (identifier) @function.ecma
+; )
 
-(call_expression
-  function: (member_expression
-    property: (property_identifier) @function.method.ecma))
-(call_expression
-  function: (member_expression
-    property: (private_property_identifier) @function.method.private.ecma))
+; (call_expression
+;   function: (member_expression
+;     property: (property_identifier) @function.method.ecma)
+; )
+; (call_expression
+;   function: (member_expression
+;     property: (private_property_identifier) @function.method.private.ecma)
+; )
 
 ; Literals
 ;---------
@@ -256,33 +288,48 @@
  (#match? @constant.ecma "^[A-Z_][A-Z\\d_]+$"))
 
 ((identifier) @variable.builtin.ecma
- (#match? @variable.builtin.ecma "^(arguments|module|console|window|document)$")
+ (#match? @variable.builtin.ecma "^(arguments|module|console|window|document|globalThis|webkit)$")
  (#is-not? local))
 
-(call_expression
- (identifier) @function.builtin.ecma
- (#any-of? @function.builtin.ecma
-  "eval"
-  "fetch"
-  "isFinite"
-  "isNaN"
-  "parseFloat"
-  "parseInt"
-  "decodeURI"
-  "decodeURIComponent"
-  "encodeURI"
-  "encodeURIComponent"
-  "require"
-  "alert"
-  "prompt"
-  "btoa"
-  "atob"
-  "confirm"
-  "structuredClone"
-  "setTimeout"
-  "clearTimeout"
-  "setInterval"
-  "clearInterval"
-  "queueMicrotask")
- (#is-not? local))
+; (call_expression
+;  (identifier) @function.builtin.ecma
+;  (#any-of? @function.builtin.ecma
+;   "eval"
+;   "fetch"
+;   "isFinite"
+;   "isNaN"
+;   "parseFloat"
+;   "parseInt"
+;   "decodeURI"
+;   "decodeURIComponent"
+;   "encodeURI"
+;   "encodeURIComponent"
+;   "require"
+;   "alert"
+;   "prompt"
+;   "btoa"
+;   "atob"
+;   "confirm"
+;   "structuredClone"
+;   "setTimeout"
+;   "clearTimeout"
+;   "setInterval"
+;   "clearInterval"
+;   "queueMicrotask")
+;  (#is-not? local))
 
+(meta_property
+  "new"? @keyword.expression.meta_property.meta.new.ecma
+  "." @punctuation.meta_property_dot.ecma
+  "target"? @keyword.expression.meta_property.property.target.ecma
+)
+
+(member_expression
+  object: (import) @keyword.expression.meta_property.meta.import.ecma
+  "." @punctuation.meta_property_dot.ecma
+)
+
+(member_expression
+  object: (import)
+  property: (property_identifier) @keyword.expression.meta_property.property.ecma
+)
