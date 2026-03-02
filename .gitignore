@@ -1,3 +1,4 @@
+.direnv
 deps
 config.toml
 languages.toml
