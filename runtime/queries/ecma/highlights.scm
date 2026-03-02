@@ -54,7 +54,6 @@
   "&&="
   "||="
   "??="
-  "..."
 ] @operator.ecma
 
 (ternary_expression ["?" ":"] @operator.ecma)
@@ -73,6 +72,10 @@
 (template_substitution
   "${" @punctuation.special.ecma
   "}" @punctuation.special.ecma) @embedded.ecma
+
+"..." @punctuation.ellipsis.ecma
+(spread_element "..." @punctuation.ellipsis.spread.ecma)
+(rest_pattern "..." @punctuation.ellipsis.rest.ecma)
 
 [
   "async"
@@ -150,19 +153,27 @@
 (property_identifier) @identifier.ecma
 
 (member_expression
-  (property_identifier) @identifier.field_access.ecma
+  (property_identifier) @identifier.property.access.ecma
 )
 
-(private_property_identifier) @identifier.field_access.private.ecma
-
-((property_identifier) @identifier.field_access.constant.ecma
-  (#match? @identifier.field_access.constant.ecma "^[A-Z_][A-Z\\d_]+$")
+(member_expression
+  ((property_identifier) @identifier.constant.property.access.ecma
+    (#match? @identifier.constant.property.access.ecma "^[A-Z_][A-Z\\d_]+$")
+  )
 )
 
-(shorthand_property_identifier) @variable.other.member.ecma
-(shorthand_property_identifier_pattern) @variable.other.member.ecma
+(member_expression
+  ((property_identifier) @identifier.constructor.property.access.ecma
+    (#match? @identifier.constructor.property.access.ecma "^[A-Z]")
+  )
+)
 
-(pair (property_identifier) @identifier.field.ecma)
+(private_property_identifier) @identifier.private.property.ecma
+
+(shorthand_property_identifier) @identifier.property.ecma
+(shorthand_property_identifier_pattern) @identifier.property.ecma
+
+(pair (property_identifier) @identifier.property.key.ecma)
 
 ; Function and method definitions
 ;--------------------------------
@@ -260,7 +271,7 @@
 (false) @keyword.literal.boolean.false.ecma
 (null) @keyword.literal.null.ecma
 
-(undefined) @variable.builtin.undefined.ecma
+(undefined) @identifier.undefined.ecma
 
 (comment) @comment.ecma
 
@@ -287,9 +298,9 @@
  ] @constant.ecma
  (#match? @constant.ecma "^[A-Z_][A-Z\\d_]+$"))
 
-((identifier) @variable.builtin.ecma
- (#match? @variable.builtin.ecma "^(arguments|module|console|window|document|globalThis|webkit)$")
- (#is-not? local))
+; ((identifier) @variable.builtin.ecma
+;  (#match? @variable.builtin.ecma "^(arguments|module|console|window|document|globalThis|webkit)$")
+;  (#is-not? local))
 
 ; (call_expression
 ;  (identifier) @function.builtin.ecma

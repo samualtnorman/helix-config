@@ -10,7 +10,7 @@
 "type_annotation.type" = "maroon"
 
 "type" = "yellow"
-"type.builtin" = { fg = "yellow", modifiers = ["italic"] }
+"type.builtin" = { fg = "sapphire" }
 "type.enum.variant" = "teal"
 
 "constructor" = "yellow"
@@ -32,8 +32,11 @@
 # "variable.other.member" = { fg = "lavender" }
 
 "identifier" = "red"
-"identifier.field_access" = { fg = "red", modifiers = ["italic"] }
-"identifier.field_access.constant" = "peach"
+"identifier.property.access" = { fg = "red", modifiers = ["italic"] }
+"identifier.constant" = "peach"
+"identifier.constructor" = "yellow"
+"identifier.private" = "sky"
+"identifier.undefined" = "sapphire"
 
 "label" = "sapphire" # used for lifetimes
 
