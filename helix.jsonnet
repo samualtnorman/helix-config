@@ -70,7 +70,11 @@ local Language(object) = [
 			"file-picker": { hidden: false }
 		},
 		keys: {
-			normal: { " ": { o: ":lsp-workspace-command _typescript.organizeImports \"%sh{realpath %{buffer_name}}\"" } }
+			normal: {
+				" ": { o: ":lsp-workspace-command _typescript.organizeImports \"%sh{realpath %{buffer_name}}\"" },
+				"S-h": "move_prev_word_end",
+				"S-l": "move_next_word_start"
+			}
 		}
 	}, "\t"),
 
@@ -128,7 +132,8 @@ local Language(object) = [
 			graphql: {},
 			bash: {},
 			html: {},
-			markdown: {}
+			markdown: {},
+			tsq: {}
 		})
 	}, "\t")
 }

@@ -71,9 +71,9 @@
 ; Punctuation
 ; -----------
 
-[
-  ":"
-] @punctuation.delimiter.ts
+; [
+;   ":"
+; ] @punctuation.delimiter.ts
 
 (optional_parameter "?" @punctuation.special.ts)
 (property_signature "?" @punctuation.special.ts)

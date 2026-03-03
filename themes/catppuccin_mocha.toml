@@ -5,7 +5,7 @@
 # "keyword.control.ecma" = "yellow"
 # "keyword.ts" = "blue"
 
-"attribute" = "yellow"
+"attribute" = "red"
 
 "type_annotation.type" = "maroon"
 
@@ -15,12 +15,12 @@
 
 "constructor" = "yellow"
 
-"constant" = "peach"
-"constant.character" = "teal"
+# "constant" = "peach"
+# "constant.character" = "teal"
 "constant.character.escape" = "pink"
 
 "string" = "green"
-"string.regexp" = "pink"
+# "string.regexp" = "pink"
 "string.special" = "blue"
 "string.special.symbol" = "red"
 
@@ -32,6 +32,7 @@
 # "variable.other.member" = { fg = "lavender" }
 
 "identifier" = "red"
+"identifier.capitalised" = "yellow"
 "identifier.property.access" = { fg = "red", modifiers = ["italic"] }
 "identifier.constant" = "peach"
 "identifier.constructor" = "yellow"
@@ -89,6 +90,9 @@
 
 "constant.builtin.boolean" = "yellow"
 "constant.builtin" = "sapphire"
+
+"literal" = "peach"
+"literal.string" = "green"
 
 # User Interface
 # --------------

@@ -56,7 +56,10 @@
   "??="
 ] @operator.ecma
 
-(ternary_expression ["?" ":"] @operator.ecma)
+(ternary_expression
+  "?" @operator.ternary.question_mark.ecma
+  ":" @operator.ternary.colon.ecma
+)
 
 (sequence_expression (",") @operator.comma.ecma)
 
@@ -142,38 +145,48 @@
 "try" @keyword.control.exception.try.ecma
 "catch" @keyword.control.exception.catch.ecma
 
-; Variables
+; Identifiers
 ;----------
 
 (identifier) @identifier.ecma
+(property_identifier) @identifier.property.ecma
+(private_property_identifier) @identifier.property.private.ecma
+(shorthand_property_identifier) @identifier.property.shorthand.ecma
+(shorthand_property_identifier_pattern) @identifier.property.shorthand.ecma
+
+((identifier) @identifier.capitalised.ecma (#match? @identifier.capitalised.ecma "^[A-Z]"))
+((property_identifier) @identifier.capitalised.property.ecma (#match? @identifier.capitalised.property.ecma "^[A-Z]"))
+
+((private_property_identifier) @identifier.capitalised.property.private.ecma
+  (#match? @identifier.capitalised.property.private.ecma "^[A-Z]")
+)
+
+((shorthand_property_identifier) @identifier.capitalised.property.shorthand.ecma
+  (#match? @identifier.capitalised.property.shorthand.ecma "^[A-Z]")
+)
+
+((shorthand_property_identifier_pattern) @identifier.capitalised.property.shorthand.ecma
+  (#match? @identifier.capitalised.property.shorthand.ecma "^[A-Z]")
+)
 
 ; Properties
 ;-----------
 
-(property_identifier) @identifier.ecma
+; (member_expression (property_identifier) @identifier.property.access.ecma)
 
-(member_expression
-  (property_identifier) @identifier.property.access.ecma
-)
+; (member_expression
+;   ((property_identifier) @identifier.constant.property.access.ecma
+;     (#match? @identifier.constant.property.access.ecma "^[A-Z_][A-Z\\d_]+$")
+;   )
+; )
 
-(member_expression
-  ((property_identifier) @identifier.constant.property.access.ecma
-    (#match? @identifier.constant.property.access.ecma "^[A-Z_][A-Z\\d_]+$")
-  )
-)
+; (member_expression
+;   ((property_identifier) @identifier.constructor.property.access.ecma
+;     (#match? @identifier.constructor.property.access.ecma "^[A-Z]")
+;   )
+; )
 
-(member_expression
-  ((property_identifier) @identifier.constructor.property.access.ecma
-    (#match? @identifier.constructor.property.access.ecma "^[A-Z]")
-  )
-)
-
-(private_property_identifier) @identifier.private.property.ecma
-
-(shorthand_property_identifier) @identifier.property.ecma
-(shorthand_property_identifier_pattern) @identifier.property.ecma
-
-(pair (property_identifier) @identifier.property.key.ecma)
+; (pair (property_identifier) @identifier.property.key.ecma)
 
 ; Function and method definitions
 ;--------------------------------
@@ -242,8 +255,8 @@
 
 ; Arrow function parameters in the form `p => ...` are supported by both
 ; javascript and typescript grammars without conflicts.
-(arrow_function
-  parameter: (identifier) @variable.parameter.ecma)
+(arrow_function parameter: (identifier) @variable.parameter.ecma)
+(arrow_function "async" @keyword.expression.control.async.arrow.ecma)
   
 ; Function and method calls
 ;--------------------------
@@ -267,36 +280,34 @@
 (this) @keyword.expression.this.ecma
 (super) @keyword.expression.super.ecma
 
-(true) @keyword.literal.boolean.true.ecma
-(false) @keyword.literal.boolean.false.ecma
-(null) @keyword.literal.null.ecma
+(true) @literal.keyword.boolean.true.ecma
+(false) @literal.keyword.boolean.false.ecma
+(null) @literal.keyword.null.ecma
 
-(undefined) @identifier.undefined.ecma
+(undefined) @literal.identifier.undefined.ecma
 
 (comment) @comment.ecma
 
-[
-  (string)
-  (template_string)
-] @string.ecma
+(string) @literal.string.ecma
+(template_string) @literal.string.template.ecma
 
-(escape_sequence) @constant.character.escape.ecma
+(escape_sequence) @escape.ecma
 
-(regex) @string.regexp.ecma
-(number) @constant.numeric.integer.ecma
+(regex) @literal.string.regexp.ecma
+(number) @literal.number.ecma
 
 ; Special identifiers
 ;--------------------
 
-((identifier) @constructor.ecma
- (#match? @constructor.ecma "^[A-Z]"))
+; ((identifier) @constructor.ecma
+;  (#match? @constructor.ecma "^[A-Z]"))
 
-([
-    (identifier)
-    (shorthand_property_identifier)
-    (shorthand_property_identifier_pattern)
- ] @constant.ecma
- (#match? @constant.ecma "^[A-Z_][A-Z\\d_]+$"))
+; ([
+;     (identifier)
+;     (shorthand_property_identifier)
+;     (shorthand_property_identifier_pattern)
+;  ] @constant.ecma
+;  (#match? @constant.ecma "^[A-Z_][A-Z\\d_]+$"))
 
 ; ((identifier) @variable.builtin.ecma
 ;  (#match? @variable.builtin.ecma "^(arguments|module|console|window|document|globalThis|webkit)$")
@@ -344,3 +355,5 @@
   object: (import)
   property: (property_identifier) @keyword.expression.meta_property.property.ecma
 )
+
+(class "class" @keyword.expression.class.ecma)
