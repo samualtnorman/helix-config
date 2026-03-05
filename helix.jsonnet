@@ -144,7 +144,8 @@ local Language(object) = [
 			bash: {},
 			html: {},
 			markdown: {},
-			tsq: {}
+			tsq: {},
+			nix: {}
 		})
 	}, "\t")
 }
