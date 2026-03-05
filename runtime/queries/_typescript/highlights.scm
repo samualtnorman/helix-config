@@ -90,11 +90,12 @@
   ; "export"
   "infer"
   "implements"
-  "keyof"
   "namespace"
   "override"
   "satisfies"
 ] @keyword.ts
+
+"keyof" @keyword.expression.operator.keyof.ts
 
 (as_expression "as" @keyword.expression.operator.as.ts)
 
@@ -120,6 +121,7 @@
 (predefined_type) @type.builtin.ts
 (predefined_type ("void") @type.builtin.void.ts)
 (literal_type (undefined) @type.builtin.undefined.ts)
+(literal_type (null) @type.builtin.null.ts)
 
 ; Type arguments and parameters
 ; -----------------------------
@@ -149,3 +151,5 @@
 (import_require_clause
   (identifier) "="
   ("require") @keyword.ts)
+
+(type_annotation ":" @punctuation.colon.ts)

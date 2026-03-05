@@ -72,8 +72,19 @@ local Language(object) = [
 		keys: {
 			normal: {
 				" ": { o: ":lsp-workspace-command _typescript.organizeImports \"%sh{realpath %{buffer_name}}\"" },
-				"S-h": "move_prev_word_end",
-				"S-l": "move_next_word_start"
+				"H": "move_prev_word_end",
+				"L": "move_next_word_start",
+				"'": {
+					"c": ":buffer-close",
+					"C": ":buffer-close!"
+				}
+				// "C-j": [
+				// 	"goto_line_end_newline",
+				// 	"join_selections",
+				// 	"move_prev_sub_word_end",
+				// 	"move_next_sub_word_start",
+				// 	"delete_selection"
+				// ]
 			}
 		}
 	}, "\t"),
@@ -114,7 +125,7 @@ local Language(object) = [
 		language: Language({
 			typescript: {
 				"auto-pairs": { "(": ")", "{": "}", "[": "]", "\"": "\"", "`": "`", "<": ">" },
-				"language-servers": [ "deno", "eslint" ]
+				"language-servers": [ "deno", "eslint", "effect-language-service" ]
 			},
 			tsx: {
 				"auto-pairs": { "(": ")", "{": "}", "[": "]", "\"": "\"", "`": "`", "<": ">" },

@@ -55,14 +55,16 @@
 "operator" = "sky"
 
 "function" = { fg = "blue", modifiers = ["bold"] }
+"function.capitalised" = { fg = "yellow", modifiers = ["bold"] }
 "function.macro" = "mauve"
 
 "tag" = "blue"
 
 "namespace" = { fg = "yellow", modifiers = ["italic"] }
 
-"punctuation.generator_star" = { fg = "mauve", modifiers = ["bold"] }
-"punctuation.generator_star.expression" = { fg = "mauve", modifiers = ["italic", "bold"] }
+"punctuation.star.generator.declaration" = { fg = "mauve", modifiers = ["bold"] }
+"punctuation.star.generator.expression" = { fg = "mauve", modifiers = ["italic", "bold"] }
+"operator.star.yield" = { fg = "mauve", modifiers = ["italic", "bold"] }
 "punctuation.meta_property_dot" = { fg = "mauve", modifiers = ["italic"] }
 
 "special" = "blue" # fuzzy highlight

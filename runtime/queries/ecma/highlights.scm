@@ -17,7 +17,6 @@
   "+"
   "++"
   "+="
-  "*"
   "*="
   "**"
   "**="
@@ -55,6 +54,8 @@
   "||="
   "??="
 ] @operator.ecma
+
+"*" @operator.star.ecma
 
 (ternary_expression
   "?" @operator.ternary.question_mark.ecma
@@ -113,6 +114,9 @@
 ] @keyword.storage.modifier.ecma
 
 "yield" @keyword.expression.control.operator.yield.ecma
+
+(yield_expression ("*") @operator.star.yield.ecma)
+
 "await" @keyword.expression.control.operator.await.ecma
 
 [
@@ -154,19 +158,19 @@
 (shorthand_property_identifier) @identifier.property.shorthand.ecma
 (shorthand_property_identifier_pattern) @identifier.property.shorthand.ecma
 
-((identifier) @identifier.capitalised.ecma (#match? @identifier.capitalised.ecma "^[A-Z]"))
-((property_identifier) @identifier.capitalised.property.ecma (#match? @identifier.capitalised.property.ecma "^[A-Z]"))
+((identifier) @identifier.capitalised.ecma (#match? @identifier.capitalised.ecma "^_*[A-Z]"))
+((property_identifier) @identifier.capitalised.property.ecma (#match? @identifier.capitalised.property.ecma "^_*[A-Z]"))
 
 ((private_property_identifier) @identifier.capitalised.property.private.ecma
-  (#match? @identifier.capitalised.property.private.ecma "^[A-Z]")
+  (#match? @identifier.capitalised.property.private.ecma "^_*[A-Z]")
 )
 
 ((shorthand_property_identifier) @identifier.capitalised.property.shorthand.ecma
-  (#match? @identifier.capitalised.property.shorthand.ecma "^[A-Z]")
+  (#match? @identifier.capitalised.property.shorthand.ecma "^_*[A-Z]")
 )
 
 ((shorthand_property_identifier_pattern) @identifier.capitalised.property.shorthand.ecma
-  (#match? @identifier.capitalised.property.shorthand.ecma "^[A-Z]")
+  (#match? @identifier.capitalised.property.shorthand.ecma "^_*[A-Z]")
 )
 
 ; Properties
@@ -194,61 +198,66 @@
 (function
   "async"? @keyword.expression.control.async.ecma
   "function" @keyword.expression.control.function.ecma
-  ; name: (identifier)? @function.ecma
+  name: (identifier)? @function.ecma
 )
 (generator_function
   "async"? @keyword.expression.control.async.ecma
   "function" @keyword.expression.control.function.ecma
-  "*" @punctuation.generator_star.expression.ecma
-  ; name: (identifier)? @function.ecma
+  "*" @punctuation.star.generator.expression.ecma
+  name: (identifier)? @function.ecma
 )
 (function_declaration
   "async"? @keyword.expression.control.async.ecma
   "function" @keyword.control.function.ecma
-  ; name: (identifier) @function.ecma
+  name: (identifier) @function.ecma
 )
 (generator_function_declaration
   "async"? @keyword.control.async.ecma
   "function" @keyword.control.function.ecma
-  "*" @punctuation.generator_star.ecma
-  ; name: (identifier) @function.ecma
+  "*" @punctuation.star.generator.declaration.ecma
+  name: (identifier) @function.ecma
 )
-; (method_definition
-;   name: (property_identifier) @function.method.ecma
-; )
-; (method_definition
-;   name: (private_property_identifier) @function.method.private.ecma
-; )
+(method_definition
+  name: (property_identifier) @function.method.ecma
+)
+(method_definition
+  name: (private_property_identifier) @function.method.private.ecma
+)
 
-; (pair
-;   key: (property_identifier) @function.method.ecma
-;   value: [(function) (arrow_function)]
-; )
-; (pair
-;   key: (private_property_identifier) @function.method.private.ecma
-;   value: [(function) (arrow_function)]
-; )
+(pair
+  key: (property_identifier) @function.method.ecma
+  value: [(function) (arrow_function)]
+)
+(pair
+  key: (private_property_identifier) @function.method.private.ecma
+  value: [(function) (arrow_function)]
+)
 
-; (assignment_expression
-;   left: (member_expression
-;     property: (property_identifier) @function.method.ecma)
-;   right: [(function) (arrow_function)]
-; )
-; (assignment_expression
-;   left: (member_expression
-;     property: (private_property_identifier) @function.method.private.ecma)
-;   right: [(function) (arrow_function)]
-; )
+(assignment_expression
+  left: (member_expression
+    property: (property_identifier) @function.method.ecma)
+  right: [(function) (arrow_function)]
+)
+(assignment_expression
+  left: (member_expression
+    property: (private_property_identifier) @function.method.private.ecma)
+  right: [(function) (arrow_function)]
+)
 
-; (variable_declarator
-;   name: (identifier) @function.ecma
-;   value: [(function) (arrow_function) (generator_function)]
-; )
+(variable_declarator
+  name: (identifier) @function.ecma
+  value: [(function) (arrow_function) (generator_function)]
+)
 
-; (assignment_expression
-;   left: (identifier) @function.ecma
-;   right: [(function) (arrow_function)]
-; )
+(variable_declarator
+  name: (identifier) @function.capitalised.ecma (#match? @function.capitalised.ecma "^_*[A-Z]")
+  value: [(function) (arrow_function) (generator_function)]
+)
+
+(assignment_expression
+  left: (identifier) @function.ecma
+  right: [(function) (arrow_function)]
+)
 
 ; Function and method parameters
 ;-------------------------------
@@ -261,18 +270,33 @@
 ; Function and method calls
 ;--------------------------
 
-; (call_expression
-;   function: (identifier) @function.ecma
-; )
+(call_expression
+  function: (identifier) @function.ecma
+)
 
-; (call_expression
-;   function: (member_expression
-;     property: (property_identifier) @function.method.ecma)
-; )
-; (call_expression
-;   function: (member_expression
-;     property: (private_property_identifier) @function.method.private.ecma)
-; )
+(call_expression
+  function: (identifier) @function.capitalised.ecma (#match? @function.capitalised.ecma "^_*[A-Z]")
+)
+
+(call_expression
+  function: (member_expression
+    property: (property_identifier) @function.method.ecma)
+)
+
+(call_expression
+  function: (member_expression
+    property: (property_identifier) @function.capitalised.method.ecma) (#match? @function.capitalised.method.ecma "^_*[A-Z]")
+)
+
+(call_expression
+  function: (member_expression
+    property: (private_property_identifier) @function.method.private.ecma)
+)
+
+(call_expression
+  function: (member_expression
+    property: (private_property_identifier) @function.capitalised.method.private.ecma) (#match? @function.capitalised.method.private.ecma "^_*[A-Z]")
+)
 
 ; Literals
 ;---------
@@ -357,3 +381,7 @@
 )
 
 (class "class" @keyword.expression.class.ecma)
+
+(statement_identifier) @label.ecma
+
+(variable_declarator "=" @punctuation.equals.ecma)
