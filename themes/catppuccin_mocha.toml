@@ -96,6 +96,8 @@
 "literal" = "peach"
 "literal.string" = "green"
 
+"hash_bang_line" = { fg = "overlay1", modifiers = ["italic"] }
+
 # User Interface
 # --------------
 "ui.background" = { fg = "text", bg = "base" }

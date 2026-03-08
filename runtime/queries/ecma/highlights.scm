@@ -385,3 +385,5 @@
 (statement_identifier) @label.ecma
 
 (variable_declarator "=" @punctuation.equals.ecma)
+
+(hash_bang_line) @hash_bang_line.ecma
