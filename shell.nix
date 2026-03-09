@@ -1,3 +1,3 @@
-let inherit (import <nixpkgs> {}) mkShellNoCC cacert git curl remarshal jq go-jsonnet; in
+let inherit (import <nixpkgs> {}) mkShellNoCC cacert git curl remarshal go-jsonnet; in
 
-mkShellNoCC { packages = [ cacert git curl remarshal jq go-jsonnet ]; }
+mkShellNoCC { packages = [ cacert git curl remarshal go-jsonnet ]; }

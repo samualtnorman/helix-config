@@ -6,8 +6,8 @@ This is my personal [Helix](https://helix-editor.com/) config. If you want to us
 Make sure you have this repository cloned to `~/.config/helix`.
 
 If you have [direnv](https://direnv.net/), run `direnv allow`. Otherwise, if you have [Nix](https://nixos.org/download/)
-run `nix-shell`. Otherwise you will need to install [curl](https://curl.se/), [Remarshal](https://pypi.org/project/remarshal/),
-[jq](https://jqlang.org/), and [Jsonnet](https://jsonnet.org/) (specifically
+run `nix-shell`. Otherwise you will need to install [curl](https://curl.se/),
+[Remarshal](https://pypi.org/project/remarshal/), and [Jsonnet](https://jsonnet.org/) (specifically
 [go-jsonnet](https://github.com/google/go-jsonnet)).
 
 ## Build

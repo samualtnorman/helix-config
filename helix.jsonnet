@@ -100,7 +100,7 @@ local Language(object) = [
 			"unocss-language-server": { args: [ "--stdio" ] },
 			"vscode-json-language-server": {
 				args: [ "--stdio" ],
-				config: { provideFormatter: true, json: { validate: { enable: true }, schemas: schemaStore } }
+				config: { provideFormatter: true, json: { validate: { enable: true }, schemas: schemaStore.schemas } }
 			},
 			deno: { args: [ "lsp" ], config: { enable: true } },
 			eslint: {
