@@ -76,15 +76,12 @@ local Language(object) = [
 				"L": "move_next_word_start",
 				"'": {
 					"c": ":buffer-close",
-					"C": ":buffer-close!"
+					"C": ":buffer-close!",
+					"w": ":write",
+					"W": ":write!",
+					"q": ":quit",
+					"Q": ":quit!"
 				}
-				// "C-j": [
-				// 	"goto_line_end_newline",
-				// 	"join_selections",
-				// 	"move_prev_sub_word_end",
-				// 	"move_next_sub_word_start",
-				// 	"delete_selection"
-				// ]
 			}
 		}
 	}, "\t"),
