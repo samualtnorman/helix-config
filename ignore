@@ -1,4 +1,13 @@
 node_modules
 dist
-.zig-cache
-.direnv
+.*
+# .zig-cache
+# .direnv
+*.pb.*
+*.cbor
+*.ttf
+*.webp
+*.woff2
+*.png
+*.icns
+*.ico
