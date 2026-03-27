@@ -67,7 +67,8 @@ local Language(object) = [
 			"cursor-shape": { insert: "bar", normal: "block", select: "underline" },
 			whitespace: { render: { tab: "all" } },
 			"end-of-line-diagnostics": "hint",
-			"file-picker": { hidden: false }
+			"file-picker": { hidden: false },
+			"auto-pairs": false
 		},
 		keys: {
 			normal: {
