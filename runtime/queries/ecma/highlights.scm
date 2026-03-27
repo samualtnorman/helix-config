@@ -206,17 +206,28 @@
   "*" @punctuation.star.generator.expression.ecma
   name: (identifier)? @function.ecma
 )
+
 (function_declaration
   "async"? @keyword.expression.control.async.ecma
   "function" @keyword.control.function.ecma
   name: (identifier) @function.ecma
 )
+
+(function_declaration
+  name: (identifier) @function.capitalised.ecma (#match? @function.capitalised.ecma "^_*[A-Z]")
+)
+
 (generator_function_declaration
   "async"? @keyword.control.async.ecma
   "function" @keyword.control.function.ecma
   "*" @punctuation.star.generator.declaration.ecma
   name: (identifier) @function.ecma
 )
+
+(generator_function_declaration
+  name: (identifier) @function.capitalised.ecma (#match? @function.capitalised.ecma "^_*[A-Z]")
+)
+
 (method_definition
   name: (property_identifier) @function.method.ecma
 )
