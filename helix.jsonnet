@@ -93,7 +93,9 @@ local Language(object) = [
 					w: ":write",
 					W: ":write!",
 					q: ":quit",
-					Q: ":quit!"
+					Q: ":quit!",
+					r: ":reload",
+					R: ":reload-all"
 				}
 			}
 		}
