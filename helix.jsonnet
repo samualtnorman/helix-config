@@ -72,7 +72,19 @@ local Language(object) = [
 		},
 		keys: {
 			normal: {
-				" ": { o: ":lsp-workspace-command _typescript.organizeImports \"%sh{realpath %{buffer_name}}\"" },
+				" ": {
+					o: ":lsp-workspace-command _typescript.organizeImports \"%sh{realpath %{buffer_name}}\"",
+					i: {
+						"1": [ ":write", ":! ~/Scripts/spaces-to-tabs.ts %{buffer_name} --indent-size=1", ":reload", ":write!" ],
+						"2": [ ":write", ":! ~/Scripts/spaces-to-tabs.ts %{buffer_name} --indent-size=2", ":reload", ":write!" ],
+						"3": [ ":write", ":! ~/Scripts/spaces-to-tabs.ts %{buffer_name} --indent-size=3", ":reload", ":write!" ],
+						"4": [ ":write", ":! ~/Scripts/spaces-to-tabs.ts %{buffer_name} --indent-size=4", ":reload", ":write!" ],
+						"5": [ ":write", ":! ~/Scripts/spaces-to-tabs.ts %{buffer_name} --indent-size=5", ":reload", ":write!" ],
+						"6": [ ":write", ":! ~/Scripts/spaces-to-tabs.ts %{buffer_name} --indent-size=6", ":reload", ":write!" ],
+						"7": [ ":write", ":! ~/Scripts/spaces-to-tabs.ts %{buffer_name} --indent-size=7", ":reload", ":write!" ],
+						"8": [ ":write", ":! ~/Scripts/spaces-to-tabs.ts %{buffer_name} --indent-size=8", ":reload", ":write!" ],
+					}
+				},
 				H: "move_prev_word_end",
 				L: "move_next_word_start",
 				"'": {
