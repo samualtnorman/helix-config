@@ -137,7 +137,7 @@ local Language(object) = [
 		language: Language({
 			typescript: {
 				"auto-pairs": { "(": ")", "{": "}", "[": "]", "\"": "\"", "`": "`", "<": ">" },
-				"language-servers": [ "deno", "eslint", "effect-language-service" ]
+				"language-servers": [ "eslint", "effect-language-service" ]
 			},
 			tsx: {
 				"auto-pairs": { "(": ")", "{": "}", "[": "]", "\"": "\"", "`": "`", "<": ">" },
@@ -148,7 +148,7 @@ local Language(object) = [
 			nginx: { "auto-pairs": { "\"": "\"", "{": "}" } },
 			jsonnet: {},
 			wat: { "language-servers": [ "wasm-language-server" ] },
-			javascript: { "language-servers": [ "deno", "eslint" ] },
+			javascript: { "language-servers": [ "eslint" ] },
 			jsonc: {},
 			css: {},
 			protobuf: { "language-servers": [ "protols" ] },
