@@ -114,7 +114,7 @@ local Language(object) = [
 				args: [ "--stdio" ],
 				config: { provideFormatter: true, json: { validate: { enable: true }, schemas: schemaStore.schemas } }
 			},
-			deno: { args: [ "lsp" ], config: { enable: true } },
+			deno: { args: [ "lsp" ], config: { deno: { enable: true, lint: false } } },
 			eslint: {
 				command: "vscode-eslint-language-server",
 				args: [ "--stdio" ],
