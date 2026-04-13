@@ -73,15 +73,15 @@ local Language(object) = [
 		keys: {
 			normal: {
 				" ": { o: ":lsp-workspace-command _typescript.organizeImports \"%sh{realpath %{buffer_name}}\"" },
-				"H": "move_prev_word_end",
-				"L": "move_next_word_start",
+				H: "move_prev_word_end",
+				L: "move_next_word_start",
 				"'": {
-					"c": ":buffer-close",
-					"C": ":buffer-close!",
-					"w": ":write",
-					"W": ":write!",
-					"q": ":quit",
-					"Q": ":quit!"
+					c: ":buffer-close",
+					C: ":buffer-close!",
+					w: ":write",
+					W: ":write!",
+					q: ":quit",
+					Q: ":quit!"
 				}
 			}
 		}
