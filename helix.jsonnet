@@ -16,7 +16,8 @@ local Some(value) = {
 		local newValue = callback(value);
 		if isOption(newValue) then newValue else error "Expected Option",
 	unwrap: value,
-	unwrapOr(default): value
+	unwrapOr(default): value,
+	mapIf(condition, callback): if condition then Some(callback(value)) else self
 };
 
 local None = {
@@ -24,7 +25,8 @@ local None = {
 	map(callback): None,
 	flatMap(callback): None,
 	unwrap: error "Tried to unwrap None",
-	unwrapOr(default): default
+	unwrapOr(default): default,
+	mapIf(condition, callback): None
 };
 
 local LanguageServer(object) = { [field]: { command: field } + object[field] for field in std.objectFields(object) };
