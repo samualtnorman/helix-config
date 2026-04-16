@@ -1,4 +1,6 @@
 #!/usr/bin/env -S jsonnet -m . -S --ext-str pbInclude=${PROTOBUF_INCLUDE}
+local ENABLE_DENO = false;
+
 local languages = import "deps/languages.json";
 local schemaStore = import "deps/schemastore.json";
 
@@ -49,7 +51,11 @@ local Language(object) = [
 	} + object[field] + {
 		"language-servers": [ "simple-completion-language-server" ] +
 			arrayFind(languages.language, function(item, index, array) item.name == field)
-				.flatMap(function(item) get(item, "language-servers"))
+				.flatMap(function(item) get(item, "language-servers").mapIf(
+					ENABLE_DENO,
+					function (languageServers)
+						std.filter(function (name) name != "typescript-language-server", languageServers)
+				))
 				.unwrapOr([]) +
 			std.get(object[field], "language-servers", [])
 	}
@@ -139,7 +145,10 @@ local Language(object) = [
 		language: Language({
 			typescript: {
 				"auto-pairs": { "(": ")", "{": "}", "[": "]", "\"": "\"", "`": "`", "<": ">" },
-				"language-servers": [ "eslint", "effect-language-service" ]
+				"language-servers": (if ENABLE_DENO then [ "deno" ] else []) + [
+					"eslint",
+					"effect-language-service"
+				]
 			},
 			tsx: {
 				"auto-pairs": { "(": ")", "{": "}", "[": "]", "\"": "\"", "`": "`", "<": ">" },
@@ -150,7 +159,7 @@ local Language(object) = [
 			nginx: { "auto-pairs": { "\"": "\"", "{": "}" } },
 			jsonnet: {},
 			wat: { "language-servers": [ "wasm-language-server" ] },
-			javascript: { "language-servers": [ "eslint" ] },
+			javascript: { "language-servers": (if ENABLE_DENO then [ "deno" ] else []) + [ "eslint" ] },
 			jsonc: {},
 			css: {},
 			protobuf: { "language-servers": [ "protols" ] },
